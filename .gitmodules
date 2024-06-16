@@ -1,0 +1,3 @@
+[submodule "discord_game_sdk"]
+	path = discord_game_sdk
+	url = https://github.com/AlchemyViewer/discord_gamesdk.git
