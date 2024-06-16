@@ -119,16 +119,13 @@ pushd "$top/$DISCORD_SOURCE_DIR/cpp"
                 install_name_tool -id "@rpath/discord_game_sdk.dylib" "discord_game_sdk.dylib"
             popd
 
-            if [ -n "${APPLE_SIGNATURE:=""}" -a -n "${APPLE_KEY:=""}" -a -n "${APPLE_KEYCHAIN:=""}" ]; then
-                KEYCHAIN_PATH="$HOME/Library/Keychains/$APPLE_KEYCHAIN"
-                security unlock-keychain -p $APPLE_KEY $KEYCHAIN_PATH
+            if [ -n "${AUTOBUILD_KEYCHAIN_PATH:=""}" -a -n "${AUTOBUILD_KEYCHAIN_ID:=""}" ]; then
                 for dylib in $STAGING_DIR/lib/*/discord_game_sdk*.dylib;
                 do
                     if [ -f "$dylib" ]; then
-                        codesign --keychain "$KEYCHAIN_PATH" --sign "$APPLE_SIGNATURE" --force --timestamp "$dylib" || true
+                        codesign --keychain "$AUTOBUILD_KEYCHAIN_PATH" --sign "$AUTOBUILD_KEYCHAIN_ID" --force --timestamp "$dylib"
                     fi
                 done
-                security lock-keychain $KEYCHAIN_PATH
             else
                 echo "Code signing not configured; skipping codesign."
             fi
