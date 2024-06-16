@@ -113,7 +113,7 @@ pushd "$top/$DISCORD_SOURCE_DIR/cpp"
             popd
 
             # create fat libraries
-            lipo -create build_release_x86/Release/libdiscordgamesdk.a build_release_arm64/Release/libdiscordgamesdk.a -output ${STAGING_DIR}/lib/release/libdiscordgamesdk.a
+            lipo -create build_release_x86/libdiscordgamesdk.a build_release_arm64/libdiscordgamesdk.a -output ${STAGING_DIR}/lib/release/libdiscordgamesdk.a
             cp -a ../lib/x86_64/*.dylib $STAGING_DIR/lib/release/
             pushd $STAGING_DIR/lib/release/
                 install_name_tool -id "@rpath/discord_game_sdk.dylib" "discord_game_sdk.dylib"
